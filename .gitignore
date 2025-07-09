@@ -1,0 +1,40 @@
+# ----- Системные файлы OS -----
+.DS_Store
+Thumbs.db
+
+# ----- IDE: PhpStorm -----
+# Каталог настроек проекта
+.idea/
+# Файлы модулей IntelliJ
+*.iml
+
+# ----- Переменные окружения -----
+# Основной файл с секретами
+.env
+# Локальные переопределения
+.env.local
+.env.*.local
+
+# ----- Зависимости -----
+# Composer
+/vendor/
+/composer.lock
+# npm / Yarn
+/node_modules/
+/package-lock.json
+/yarn.lock
+
+# ----- Docker-артефакты и данные БД -----
+/mysql-data/
+
+# ----- WordPress: медиа, кеш, бэкапы -----
+/wp-content/uploads/
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backups/
+
+# ----- Логи -----
+*.log
+npm-debug.log*
+yarn-debug.log*
+docker-compose.log
