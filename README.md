@@ -1,0 +1,1 @@
+sudo chown -R 33:33 wp-content
