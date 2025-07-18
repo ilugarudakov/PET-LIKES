@@ -2,13 +2,20 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.ldb-vote-buttons').forEach(function (container) {
         const postId = container.dataset.postId;
 
-        container.querySelector('.ldb-like-button').addEventListener('click', function () {
-            sendVote(postId, 'like', container);
-        });
+        const likeBtn = container.querySelector('.ldb-like-button');
+        const dislikeBtn = container.querySelector('.ldb-dislike-button');
 
-        container.querySelector('.ldb-dislike-button').addEventListener('click', function () {
-            sendVote(postId, 'dislike', container);
-        });
+        if (likeBtn) {
+            likeBtn.addEventListener('click', function () {
+                sendVote(postId, 'like', container);
+            });
+        }
+
+        if (dislikeBtn) {
+            dislikeBtn.addEventListener('click', function () {
+                sendVote(postId, 'dislike', container);
+            });
+        }
     });
 
     function sendVote(postId, voteType, container) {
@@ -25,9 +32,32 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    container.querySelector('.ldb-like-count').textContent = data.data.likes;
-                    container.querySelector('.ldb-dislike-count').textContent = data.data.dislikes;
+                    const likeCount = container.querySelector('.ldb-like-count');
+                    const dislikeCount = container.querySelector('.ldb-dislike-count');
+
+                    if (likeCount) likeCount.textContent = data.data.likes;
+                    if (dislikeCount) dislikeCount.textContent = data.data.dislikes;
+                } else {
+
+                    showAlreadyVotedMessage(container, data.data || data.message || 'Error occurred');
                 }
+            })
+            .catch(err => {
+                console.error('AJAX error:', err);
+                alert('Request failed');
             });
+    }
+
+    function showAlreadyVotedMessage(container, message) {
+        if (container.querySelector('.ldb-vote-message')) return;
+
+        const msg = document.createElement('div');
+        msg.className = 'ldb-vote-message';
+        msg.textContent = message;
+        msg.style.marginTop = '10px';
+        msg.style.color = 'red';
+        msg.style.fontSize = '1em';
+
+        container.appendChild(msg);
     }
 });
